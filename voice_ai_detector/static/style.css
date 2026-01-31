@@ -1,24 +1,19 @@
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    background: linear-gradient(135deg, #141e30, #243b55);
     color: white;
     height: 100vh;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 }
 
 .container {
-    background: rgba(0, 0, 0, 0.6);
-    padding: 30px 40px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 30px;
     border-radius: 12px;
     text-align: center;
-    width: 350px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-}
-
-h1 {
-    margin-bottom: 10px;
+    width: 360px;
 }
 
 input[type="file"] {
@@ -27,35 +22,23 @@ input[type="file"] {
 }
 
 button {
-    background: #00c6ff;
-    background: linear-gradient(to right, #0072ff, #00c6ff);
-    border: none;
-    padding: 10px 20px;
-    color: white;
+    width: 100%;
+    padding: 10px;
     font-size: 16px;
+    background: #00c6ff;
+    border: none;
     border-radius: 6px;
     cursor: pointer;
-    width: 100%;
 }
 
 button:hover {
-    opacity: 0.9;
-}
-
-#result {
-    margin-top: 20px;
-}
-
-#prediction {
-    font-size: 22px;
-    margin-bottom: 5px;
-}
-
-#confidence {
-    font-size: 16px;
-    color: #ddd;
+    opacity: 0.85;
 }
 
 .hidden {
     display: none;
+}
+
+#result {
+    margin-top: 20px;
 }
