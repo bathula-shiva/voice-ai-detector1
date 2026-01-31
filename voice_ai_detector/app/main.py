@@ -1,8 +1,21 @@
-from fastapi import FastAPI, UploadFile, File
-from voice_ai_detector.app.audio_utils import extract_features
-from voice_ai_detector.app.model import predict
+from fastapi import FastAPI, UploadFile, File, Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+
+from app.audio_utils import extract_features
+from app.model import predict
 
 app = FastAPI(title="Voice AI Detector")
+
+# Static & Templates
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
+
+
+@app.get("/")
+def home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
 
 @app.post("/detect")
 async def detect_voice(file: UploadFile = File(...)):
