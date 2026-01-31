@@ -1,6 +1,6 @@
 from fastapi import FastAPI, UploadFile, File
-from app.audio_utils import extract_features
-from app.model import predict
+from voice_ai_detector.app.audio_utils import extract_features
+from voice_ai_detector.app.model import predict
 
 app = FastAPI(title="Voice AI Detector")
 
