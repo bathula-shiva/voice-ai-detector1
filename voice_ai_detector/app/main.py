@@ -7,8 +7,9 @@ from voice_ai_detector.app.model import predict
 
 app = FastAPI(title="Voice AI Detector")
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
+# ✅ Correct paths (important)
+app.mount("/static", StaticFiles(directory="voice_ai_detector/static"), name="static")
+templates = Jinja2Templates(directory="voice_ai_detector/templates")
 
 @app.get("/")
 def home(request: Request):
