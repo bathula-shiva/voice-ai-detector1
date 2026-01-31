@@ -8,19 +8,17 @@
 <body>
 
 <div class="container">
-    <h1>🎙️ Voice AI Detection</h1>
-    <p>Upload an audio file to check whether it is <b>Human</b> or <b>AI Generated</b>.</p>
+    <h1>🎙️ Voice AI Detector</h1>
+    <p>Upload an audio file to detect if it is <b>Human</b> or <b>AI Generated</b></p>
 
     <input type="file" id="audioFile" accept="audio/*">
-    <button onclick="detectVoice()">Detect</button>
+    <button onclick="detectVoice()">Detect Voice</button>
+
+    <div id="loading" class="hidden">⏳ Processing...</div>
 
     <div id="result" class="hidden">
         <h2 id="prediction"></h2>
         <p id="confidence"></p>
-    </div>
-
-    <div id="loading" class="hidden">
-        ⏳ Processing audio...
     </div>
 </div>
 
