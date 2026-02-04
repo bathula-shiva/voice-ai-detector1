@@ -1,27 +1,47 @@
 from fastapi import FastAPI, UploadFile, File, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+import shutil
+import os
 
-from voice_ai_detector.app.audio_utils import extract_features
-from voice_ai_detector.app.model import predict
+from app.audio_utils import extract_features
+from app.model import predict
 
-app = FastAPI(title="Voice AI Detector")
+app = FastAPI(
+    title="Voice AI Detector",
+    version="0.1.0"
+)
 
-# ✅ Correct paths (important)
-app.mount("/static", StaticFiles(directory="voice_ai_detector/static"), name="static")
-templates = Jinja2Templates(directory="voice_ai_detector/templates")
+# ---------- Static & Templates ----------
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
+# ---------- Home UI ----------
 @app.get("/")
 def home(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(
+        "index.html",
+        {"request": request}
+    )
 
+# ---------- Detection API ----------
 @app.post("/detect")
 async def detect_voice(file: UploadFile = File(...)):
-    audio_bytes = await file.read()
-    features = extract_features(audio_bytes)
-    prediction = predict(features)
+    os.makedirs("temp", exist_ok=True)
+    file_path = f"temp/{file.filename}"
+
+    # Save uploaded audio
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    # Feature extraction + prediction
+    features = extract_features(file_path)
+    prediction, confidence = predict(features)
+
+    # Cleanup
+    os.remove(file_path)
 
     return {
-        "prediction": prediction["result"],
-        "confidence": prediction["confidence"]
+        "prediction": prediction,
+        "confidence": confidence
     }
