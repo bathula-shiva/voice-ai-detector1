@@ -1,44 +1,47 @@
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #141e30, #243b55);
-    color: white;
-    height: 100vh;
+    background: #f4f6f8;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 .container {
-    background: rgba(0, 0, 0, 0.7);
+    background: white;
     padding: 30px;
-    border-radius: 12px;
+    border-radius: 10px;
+    width: 350px;
     text-align: center;
-    width: 360px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-input[type="file"] {
+h1 {
+    margin-bottom: 10px;
+}
+
+input {
     margin: 15px 0;
-    width: 100%;
 }
 
 button {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    background: #00c6ff;
+    background: #2563eb;
+    color: white;
     border: none;
+    padding: 10px 18px;
     border-radius: 6px;
     cursor: pointer;
 }
 
 button:hover {
-    opacity: 0.85;
+    background: #1e40af;
+}
+
+.result {
+    margin-top: 20px;
 }
 
 .hidden {
     display: none;
 }
-
-#result {
-    margin-top: 20px;
-}
+    
