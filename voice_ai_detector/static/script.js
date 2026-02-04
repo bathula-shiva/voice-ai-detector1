@@ -5,7 +5,7 @@ async function detectVoice() {
     const confidenceText = document.getElementById("confidence");
 
     if (!fileInput.files.length) {
-        alert("Please upload an audio file");
+        alert("Please select an audio file");
         return;
     }
 
@@ -25,9 +25,9 @@ async function detectVoice() {
         const data = await response.json();
 
         predictionText.innerText = `Prediction: ${data.prediction}`;
-        confidenceText.innerText = `Confidence: ${data.confidence * 100}%`;
+        confidenceText.innerText = `Confidence: ${(data.confidence * 100).toFixed(2)}%`;
     } catch (error) {
-        predictionText.innerText = "Error detecting voice";
+        predictionText.innerText = "Error during detection";
         confidenceText.innerText = "";
     }
 }
