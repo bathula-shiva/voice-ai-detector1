@@ -1,17 +1,17 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse, JSONResponse
 from starlette.requests import Request
 
-from .audio_utils import extract_features
-from .model import predict
+from app.audio_utils import extract_features
+from app.model import predict
 
-app = FastAPI()
+app = FastAPI(title="Voice AI Detector")
 
-# STATIC & TEMPLATES (correct paths)
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
-templates = Jinja2Templates(directory="app/templates")
+# STATIC & TEMPLATES (outside app)
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -20,3 +20,13 @@ async def home(request: Request):
         "index.html",
         {"request": request}
     )
+
+
+@app.post("/detect")
+async def detect_voice(audio_url: str):
+    features = extract_features(audio_url)
+    result = predict(features)
+
+    return JSONResponse({
+        "prediction": result
+    })
