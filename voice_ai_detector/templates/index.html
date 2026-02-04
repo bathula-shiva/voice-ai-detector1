@@ -2,21 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Voice AI Detection</title>
+    <title>Voice AI Detector</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
 <div class="container">
-    <h1>🎙️ Voice AI Detector</h1>
-    <p>Upload an audio file to detect if it is <b>Human</b> or <b>AI Generated</b></p>
+    <h1>🎙 Voice AI Detector</h1>
+    <p>Upload a voice sample to check if it is AI-generated or Human</p>
 
-    <input type="file" id="audioFile" accept="audio/*">
+    <input type="file" id="audioFile" accept="audio/*" />
     <button onclick="detectVoice()">Detect Voice</button>
 
-    <div id="loading" class="hidden">⏳ Processing...</div>
-
-    <div id="result" class="hidden">
+    <div id="result" class="result hidden">
         <h2 id="prediction"></h2>
         <p id="confidence"></p>
     </div>
