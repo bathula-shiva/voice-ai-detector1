@@ -1,9 +1,8 @@
 async function detectVoice() {
     const fileInput = document.getElementById("audioFile");
-    const loading = document.getElementById("loading");
-    const result = document.getElementById("result");
-    const prediction = document.getElementById("prediction");
-    const confidence = document.getElementById("confidence");
+    const resultDiv = document.getElementById("result");
+    const predictionText = document.getElementById("prediction");
+    const confidenceText = document.getElementById("confidence");
 
     if (!fileInput.files.length) {
         alert("Please upload an audio file");
@@ -13,24 +12,22 @@ async function detectVoice() {
     const formData = new FormData();
     formData.append("file", fileInput.files[0]);
 
-    loading.classList.remove("hidden");
-    result.classList.add("hidden");
+    predictionText.innerText = "Detecting...";
+    confidenceText.innerText = "";
+    resultDiv.classList.remove("hidden");
 
-    const response = await fetch("/detect", {
-        method: "POST",
-        body: formData
-    });
+    try {
+        const response = await fetch("/detect", {
+            method: "POST",
+            body: formData
+        });
 
-    const data = await response.json();
+        const data = await response.json();
 
-    loading.classList.add("hidden");
-    result.classList.remove("hidden");
-
-    prediction.innerText =
-        data.prediction === "human"
-            ? "✅ Human Voice"
-            : "🤖 AI Generated Voice";
-
-    confidence.innerText =
-        "Confidence: " + (data.confidence * 100).toFixed(2) + "%";
+        predictionText.innerText = `Prediction: ${data.prediction}`;
+        confidenceText.innerText = `Confidence: ${data.confidence * 100}%`;
+    } catch (error) {
+        predictionText.innerText = "Error detecting voice";
+        confidenceText.innerText = "";
+    }
 }
