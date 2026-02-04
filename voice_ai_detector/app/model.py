@@ -1,4 +1,4 @@
-def predict(features: dict) -> dict:
+def predict_voice(features: dict) -> dict:
     ai_score = features["energy"]
     human_score = 100 - ai_score
 
