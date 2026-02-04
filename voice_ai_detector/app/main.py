@@ -1,16 +1,15 @@
 from fastapi import FastAPI, UploadFile, File, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-import shutil
-import os
 
-from .audio_utils import extract_features
-from .model import predict
+from voice_ai_detector.app.audio_utils import extract_features
+from voice_ai_detector.app.model import predict
 
-app = FastAPI(title="Voice AI Detector", version="0.1.0")
+app = FastAPI(title="Voice AI Detector")
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
+# ✅ Correct paths (important)
+app.mount("/static", StaticFiles(directory="voice_ai_detector/static"), name="static")
+templates = Jinja2Templates(directory="voice_ai_detector/templates")
 
 @app.get("/")
 def home(request: Request):
@@ -18,18 +17,11 @@ def home(request: Request):
 
 @app.post("/detect")
 async def detect_voice(file: UploadFile = File(...)):
-    os.makedirs("temp", exist_ok=True)
-    file_path = f"temp/{file.filename}"
-
-    with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
-
-    features = extract_features(file_path)
-    prediction, confidence = predict(features)
-
-    os.remove(file_path)
+    audio_bytes = await file.read()
+    features = extract_features(audio_bytes)
+    prediction = predict(features)
 
     return {
-        "prediction": prediction,
-        "confidence": confidence
+        "prediction": prediction["result"],
+        "confidence": prediction["confidence"]
     }
